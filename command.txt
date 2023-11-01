@@ -1,0 +1,3 @@
+nest g module book
+nest g controller book
+nest g service book --no--spec
