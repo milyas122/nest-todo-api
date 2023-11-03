@@ -9,10 +9,13 @@ import {
   Query,
   UseGuards,
   Req,
+  UsePipes,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './schemas/book.schema';
 import { CreateBookDto } from './dto/create-book.dto';
+import { createBookSchema } from './validations';
+import { YupValidationPipe } from './pipes/validation.pipe';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';
 import { AuthGuard } from '@nestjs/passport';
@@ -28,6 +31,7 @@ export class BookController {
 
   @Post()
   @UseGuards(AuthGuard())
+  @UsePipes(new YupValidationPipe(createBookSchema))
   async createBook(@Body() book: CreateBookDto, @Req() req): Promise<Book> {
     const user = req.user;
     return this.bookService.create(book, user);
