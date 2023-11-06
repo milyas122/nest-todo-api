@@ -1,8 +1,9 @@
-import { Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
+import { PipeTransform, BadRequestException } from '@nestjs/common';
 
-@Injectable()
 export class YupValidationPipe implements PipeTransform {
-  constructor(private schema: any) {}
+  constructor(private schema?: any) {
+    console.log(Date.now());
+  }
   async transform(value: any) {
     try {
       await this.schema.validate(value, {
